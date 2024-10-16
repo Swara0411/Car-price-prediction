@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 2em;
+        }
+        form {
+            margin: 50px auto;
+            width: 50%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>Car Price Prediction</header>
+    <form id="carForm">
+        <label for="make">Car Make:</label>
+        <select id="make" required>
+            <option value="Toyota">Toyota</option>
+            <option value="Honda">Honda</option>
+            <option value="BMW">BMW</option>
+            <option value="Ford">Ford</option>
+        </select>
+        <label for="model">Car Model:</label>
+        <input type="text" id="model" placeholder="Enter car model" required>
+        <label for="year">Year of Manufacture:</label>
+        <input type="number" id="year" placeholder="Enter year" required>
+        <label for="mileage">Mileage (in km):</label>
+        <input type="number" id="mileage" placeholder="Enter mileage" required>
+        <button type="button" onclick="predictPrice()">Predict Price</button>
+    </form>
+    <p id="result" style="font-size: 1.5em; color: #4CAF50;"></p>
+    <footer>
+        &copy; 2024 Car Price Predictor
+    </footer>
+
+    <script>
+        function predictPrice() {
+            // Get the input values
+            const make = document.getElementById("make").value;
+            const model = document.getElementById("model").value;
+            const year = document.getElementById("year").value;
+            const mileage = document.getElementById("mileage").value;
+
+            // Simulate a simple price prediction logic (static for now)
+            let price;
+            if (make === "Toyota") {
+                price = 20000 - (2024 - year) * 1000 - mileage * 0.05;
+            } else if (make === "Honda") {
+                price = 18000 - (2024 - year) * 900 - mileage * 0.05;
+            } else if (make === "BMW") {
+                price = 40000 - (2024 - year) * 1500 - mileage * 0.07;
+            } else if (make === "Ford") {
+                price = 15000 - (2024 - year) * 800 - mileage * 0.04;
+            } else {
+                price = 10000; // Default fallback
+            }
+
+            // Display the result
+            document.getElementById("result").textContent = "Estimated Price: $" + price.toFixed(2);
+        }
+    </script>
+</body>
+</html>
