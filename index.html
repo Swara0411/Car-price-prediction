@@ -3,67 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Price Prediction</title>
+    <title>Advanced Car Price Prediction</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
         }
         header {
-            background-color: #333;
-            color: white;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
             text-align: center;
-            padding: 15px;
         }
         h1 {
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
         form {
-            background-color: white;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
             display: block;
-            margin: 10px 0 5px;
         }
         input, select {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px 0 20px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
         button {
-            background-color: #4CAF50;
-            color: white;
             padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
             border: none;
             border-radius: 5px;
+            font-size: 1.1em;
             cursor: pointer;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #218838;
         }
-        #result {
-            margin-top: 20px;
+        .result {
             font-size: 1.5em;
-            color: #333;
+            text-align: center;
+            margin-top: 20px;
         }
         footer {
-            background-color: #333;
+            background-color: #343a40;
             color: white;
-            padding: 10px;
             text-align: center;
+            padding: 10px;
             position: fixed;
             bottom: 0;
             width: 100%;
@@ -73,12 +72,13 @@
 <body>
 
     <header>
-        <h1>Car Price Prediction</h1>
+        <h1>Advanced Car Price Prediction</h1>
     </header>
 
     <form id="carForm">
         <label for="make">Car Make:</label>
         <select id="make" required>
+            <option value="">Select Make</option>
             <option value="Toyota">Toyota</option>
             <option value="Honda">Honda</option>
             <option value="BMW">BMW</option>
@@ -97,6 +97,7 @@
 
         <label for="fuelType">Fuel Type:</label>
         <select id="fuelType" required>
+            <option value="">Select Fuel Type</option>
             <option value="Petrol">Petrol</option>
             <option value="Diesel">Diesel</option>
             <option value="Electric">Electric</option>
@@ -105,12 +106,14 @@
 
         <label for="transmission">Transmission Type:</label>
         <select id="transmission" required>
+            <option value="">Select Transmission</option>
             <option value="Automatic">Automatic</option>
             <option value="Manual">Manual</option>
         </select>
 
         <label for="condition">Condition:</label>
         <select id="condition" required>
+            <option value="">Select Condition</option>
             <option value="New">New</option>
             <option value="Used - Excellent">Used - Excellent</option>
             <option value="Used - Good">Used - Good</option>
@@ -123,15 +126,14 @@
         <button type="button" onclick="predictPrice()">Predict Price</button>
     </form>
 
-    <p id="result"></p>
+    <p id="result" class="result"></p>
 
     <footer>
-        &copy; 2024 Car Price Predictor
+        &copy; 2024 Advanced Car Price Predictor
     </footer>
 
     <script>
         function predictPrice() {
-            // Get form inputs
             const make = document.getElementById("make").value;
             const model = document.getElementById("model").value;
             const year = parseInt(document.getElementById("year").value);
@@ -140,21 +142,27 @@
             const transmission = document.getElementById("transmission").value;
             const condition = document.getElementById("condition").value;
 
-            // Simulate a basic price prediction algorithm
+            // Base price calculation logic (this can be replaced by an actual ML model or API)
             let basePrice = 20000;
-            if (make === "BMW") basePrice = 40000;
-            if (make === "Tesla") basePrice = 50000;
+            switch (make) {
+                case 'BMW': basePrice = 50000; break;
+                case 'Tesla': basePrice = 60000; break;
+                case 'Ford': basePrice = 30000; break;
+                default: basePrice = 20000; break;
+            }
 
-            // Adjust based on year, mileage, and other factors
+            // Adjusting price based on various factors
             const age = 2024 - year;
-            const conditionFactor = condition === "New" ? 1 : condition === "Used - Excellent" ? 0.9 : condition === "Used - Good" ? 0.8 : 0.6;
-            const transmissionFactor = transmission === "Automatic" ? 1.1 : 1.0;
-            const mileageFactor = 1 - (mileage / 200000);
+            const conditionFactor = (condition === 'New') ? 1.2 : (condition === 'Used - Excellent') ? 1.0 : (condition === 'Used - Good') ? 0.85 : 0.7;
+            const mileageFactor = (mileage < 50000) ? 1.1 : (mileage < 100000) ? 0.9 : 0.7;
+            const fuelFactor = (fuelType === 'Electric') ? 1.3 : (fuelType === 'Hybrid') ? 1.15 : 1.0;
+            const transmissionFactor = (transmission === 'Automatic') ? 1.05 : 1.0;
 
-            let predictedPrice = basePrice * conditionFactor * transmissionFactor * mileageFactor;
-            predictedPrice = Math.max(predictedPrice - age * 1000, 2000);
+            // Final predicted price
+            let predictedPrice = basePrice * conditionFactor * mileageFactor * fuelFactor * transmissionFactor;
+            predictedPrice -= age * 1000; // Depreciation based on age
+            predictedPrice = Math.max(predictedPrice, 5000); // Minimum price floor
 
-            // Display the result
             document.getElementById("result").textContent = `Estimated Price: $${predictedPrice.toFixed(2)}`;
         }
     </script>
